@@ -1,3 +1,8 @@
+'''
+Instagram UserID to Username (InstaTrack)
+Snippet By Snbig
+https://github.com/Snbig/InstaTrack/edit/master/InstaTracker.py
+'''
 import json
 import requests
 import re
@@ -19,8 +24,8 @@ def useridToUsername(id):
         rhx_gis = json.loads(re.compile('window._sharedData = ({.*?});', re.DOTALL).search(r1).group(1))['rhx_gis']
 
         ppc = re.search(r'ProfilePageContainer.js/(.*?).js', r1).group(1)
-        r2 = requests.get('https://www.instagram.com/static/bundles/metro/ProfilePageContainer.js/' + ppc + '.js').text
-        query_hash = re.findall(r'{value:!0}\);var u=\"(.*?)\"', r2)[0]
+        r2 = requests.get('https://www.instagram.com/static/bundles/es6/ProfilePageContainer.js/' + ppc + '.js').text
+        query_hash = re.findall(r'{value:!0}\);const o=\"(.*?)\"', r2)[0]
 
         query_variable = '{"user_id":"' + str(id) + '","include_reel":true}'
         t = rhx_gis + ':' + query_variable
@@ -35,3 +40,7 @@ def useridToUsername(id):
 
         username = json.loads(r3)['data']['user']['reel']['user']['username']
         return username
+
+
+#print(useridToUsername("1234567890"))
+#print(usernameToUserId("TheUserName"))
