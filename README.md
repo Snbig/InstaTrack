@@ -3,6 +3,11 @@ Convert Instagram user ID to username &amp; vice versa
 ## Author
 * **Hamed** - [Github](https://github.com/Snbig)
 
+## Changelog
+
+
+- **2019-05-30** - Code patched duo to instagram API parameter change.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
