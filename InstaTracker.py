@@ -21,7 +21,7 @@ def useridToUsername(id):
     if str(id).isnumeric():
         r1 = requests.get('https://instagram.com/instagram/', headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', }).text
-        rhx_gis = json.loads(re.compile('window._sharedData = ({.*?});', re.DOTALL).search(r1).group(1))['rhx_gis']
+        rhx_gis = json.loads(re.compile('window._sharedData = ({.*?});', re.DOTALL).search(r1).group(1))['nonce']
 
         ppc = re.search(r'ProfilePageContainer.js/(.*?).js', r1).group(1)
         r2 = requests.get('https://www.instagram.com/static/bundles/es6/ProfilePageContainer.js/' + ppc + '.js').text
