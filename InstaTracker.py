@@ -61,13 +61,13 @@ if args.id is not None:
     if not username:
         print("[-] UserID does not exist")
     else:
-        print(f"[+] Username: {username}")
+        print("[+] Username: {}".format(username))
 
 if args.username is not None:
     userid = usernameToUserId(args.username)
     if not userid:
         print("[-] Username does not exist")
     else:
-        print(f"[+] UserID: {userid}")
+        print("[+] UserID: {}".format(userid))
 if args.id is None and args.username is None:
     parser.print_help()
