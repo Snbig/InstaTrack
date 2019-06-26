@@ -10,14 +10,6 @@ import re
 
 import requests
 
-parser = argparse.ArgumentParser(prog='InstaTracker.py')
-
-parser.add_argument('-u', '--user', action='store', dest='username',
-                    help='Set Instagram username', type=str)
-parser.add_argument('-i', '--id', action='store', dest='id',
-                    help='Set Instagram userID', type=int)
-args = parser.parse_args()
-
 
 def usernameToUserId(user):
     r1 = requests.get('https://www.instagram.com/web/search/topsearch/?query=' + user, headers={
@@ -56,18 +48,65 @@ def useridToUsername(userid):
         return False
 
 
-if args.id is not None:
-    username = useridToUsername(args.id)
-    if not username:
-        print("[-] UserID does not exist")
-    else:
-        print("[+] Username: {}".format(username))
+def main():
+    parser = argparse.ArgumentParser(prog='InstaTracker.py')
 
-if args.username is not None:
-    userid = usernameToUserId(args.username)
-    if not userid:
-        print("[-] Username does not exist")
-    else:
-        print("[+] UserID: {}".format(userid))
-if args.id is None and args.username is None:
-    parser.print_help()
+    parser.add_argument('-u', '--user', action='store', dest='username',
+                        help='Set Instagram username', type=str)
+    parser.add_argument('-i', '--id', action='store', dest='id',
+                        help='Set Instagram userID', type=int)
+    parser.add_argument('-f', '--list', action='store', dest='file', help='Import username/userID per line as .txt file',
+                        type=str)
+    args = parser.parse_args()
+
+    if args.file is not None:
+        result = list()
+
+        try:
+            with open(args.file, 'r') as file:
+                elements = file.readlines()
+        except FileNotFoundError:
+            print('[-] File Not Found :(')
+            return 0
+
+        for e in elements:
+            e = e.strip()
+            if e.isdigit():
+                username = useridToUsername(e)
+                if username:
+                    result.append('{}:{}'.format(e, username))
+                else:
+                    print('[-] "{}" Not Found!\n'.format(e))
+            elif e.isalnum():
+                userid = usernameToUserId(e)
+                if userid:
+                    result.append('{}:{}'.format(e, userid))
+                else:
+                    print('[-] "{}" Not Found!\n'.format(e))
+
+        with open('result.txt', 'w') as file:
+            for record in result:
+                file.write(record + '\n')
+
+        print('[++] result saved as result.txt')
+        return 0
+
+    if args.id is not None:
+        username = useridToUsername(args.id)
+        if not username:
+            print('[-] UserID does not exist')
+        else:
+            print('[+] Username: {}'.format(username))
+
+    if args.username is not None:
+        userid = usernameToUserId(args.username)
+        if not userid:
+            print('[-] Username does not exist')
+        else:
+            print('[+] UserID: {}'.format(userid))
+    if args.id is None and args.username is None:
+        parser.print_help()
+
+
+if __name__ == '__main__':
+    main()
