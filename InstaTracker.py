@@ -109,8 +109,8 @@ def main():
                 elif e.isalnum():
                     userid = usernameToUserId(e)
                     if userid:
-                        result.append('{}:{}'.format(e, userid))
-                        file.write('{}:{}\n'.format(e, userid))
+                        result.append('{}:{}'.format(userid, e))
+                        file.write('{}:{}\n'.format(userid, e))
                     else:
                         print('[-] "{}" Not Found!\n'.format(e))
 
