@@ -25,7 +25,7 @@ def getTokens():
 
     ppc = re.search(r'ProfilePageContainer.js/(.*?).js', r).group(1)
     r = requests.get('https://www.instagram.com/static/bundles/es6/ProfilePageContainer.js/' + ppc + '.js').text
-    query_hash = re.findall(r'{value:!0}\);var s=\"(.*?)\"', r)[0]
+    query_hash = re.findall(r'{value:!0}\);(?:var|const|let) .=\"([0-9a-f]{32})\"', r)[0]
 
     global authtokens
     authtokens = tuple((rhx_gis, query_hash))
