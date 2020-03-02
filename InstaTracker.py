@@ -19,7 +19,7 @@ def checkTokens():
 
 
 def getTokens():
-    r = requests.get('https://instagram.com/instagram/', headers={
+    r = requests.get('https://instagram.com/', headers={
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', }).text
     rhx_gis = json.loads(re.compile('window._sharedData = ({.*?});', re.DOTALL).search(r).group(1))['nonce']
 
