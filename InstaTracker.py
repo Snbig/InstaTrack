@@ -48,8 +48,9 @@ def usernameToUserId(user):
         exit()
 
     try:
-        if json.loads(r)['users'][0]['user']['username'] == user:
-            return json.loads(r)['users'][0]['user']['pk']
+        for i in range(len(json.loads(r)['users'])):
+	        if json.loads(r)['users'][i]['user']['username'] == user:
+        	    return json.loads(r)['users'][i]['user']['pk']
     except:
         return False
 
