@@ -107,7 +107,7 @@ def main():
                         file.write('{}:{}\n'.format(e, username))
                     else:
                         print('[-] "{}" Not Found!\n'.format(e))
-                elif e.isalnum():
+                else:
                     userid = usernameToUserId(e)
                     if userid:
                         result.append('{}:{}'.format(userid, e))
