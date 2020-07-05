@@ -23,9 +23,9 @@ def getTokens():
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', }).text
     rhx_gis = json.loads(re.compile('window._sharedData = ({.*?});', re.DOTALL).search(r).group(1))['nonce']
 
-    ppc = re.search(r'ProfilePageContainer.js/(.*?).js', r).group(1)
-    r = requests.get('https://www.instagram.com/static/bundles/metro/ProfilePageContainer.js/' + ppc + '.js').text
-    query_hash = re.findall(r'{value:!0}\);(?:var|const|let) .=\"([0-9a-f]{32})\"', r)[0]
+    ppc = re.search(r'ConsumerLibCommons.js/(.*?).js', r).group(1)
+    r = requests.get('https://www.instagram.com/static/bundles/metro/ConsumerLibCommons.js/' + ppc + '.js').text
+    query_hash = re.findall(r'{value:!0}\);(?:var|const|let) .=\"([0-9a-f]{32})\"', r)[1]
 
     global authtokens
     authtokens = tuple((rhx_gis, query_hash))
