@@ -49,26 +49,24 @@ def usernameToUserId(user):
 
     try:
         for i in range(len(json.loads(r)['users'])):
-	        if json.loads(r)['users'][i]['user']['username'] == user:
-        	    return json.loads(r)['users'][i]['user']['pk']
+            if json.loads(r)['users'][i]['user']['username'] == user:
+                return json.loads(r)['users'][i]['user']['pk']
     except:
         return False
 
 
 def useridToUsername(userid):
-    checkTokens()
-    query_variable = '{"user_id":"' + str(userid) + '","include_reel":true}'
-    header = {'X-Instagram-GIS': const_gis(query_variable),
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0',
-              'X-Requested-With': 'XMLHttpRequest'}
+    header = {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 Instagram 12.0.0.16.90 (iPhone9,4; iOS 10_3_3; en_US; en-US; scale=2.61; gamut=wide; 1080x1920)',
+        'X-Requested-With': 'XMLHttpRequest'}
     r = requests.get(
-        'https://www.instagram.com/graphql/query/?query_hash=' + authtokens[1] + '&variables=' + query_variable,
+        f'https://i.instagram.com/api/v1/users/{userid}/info/',
         headers=header).text
-    if json.loads(r).get("message") == 'rate limited':
+    if json.loads(r).get("status") != 'ok':
         print('[x] Rate limit reached!\n[#] Unchecked ID: {}\n[!] Try again in a few minutes..\n'.format(userid))
         exit()
     try:
-        username = json.loads(r)['data']['user']['reel']['user']['username']
+        username = json.loads(r)['user']['username']
         return username
     except:
         return False
