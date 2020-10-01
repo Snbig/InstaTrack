@@ -3,15 +3,9 @@ Instagram UserID to Username (InstaTrack)
 Snippet By Snbig
 https://github.com/Snbig/InstaTrack/
 '''
-import argparse
-import hashlib
-import json
-import re
-
-import requests
+import argparse, hashlib, json, re, requests
 
 authtokens = tuple()
-
 
 def checkTokens():
     if not authtokens:
@@ -51,7 +45,7 @@ def usernameToUserId(user):
         for i in range(len(json.loads(r)['users'])):
             if json.loads(r)['users'][i]['user']['username'] == user:
                 return json.loads(r)['users'][i]['user']['pk']
-    except:
+    except IndexError:
         return False
 
 
@@ -66,9 +60,8 @@ def useridToUsername(userid):
         print('[x] Rate limit reached!\n[#] Unchecked ID: {}\n[!] Try again in a few minutes..\n'.format(userid))
         exit()
     try:
-        username = json.loads(r)['user']['username']
-        return username
-    except:
+        return json.loads(r)['user']['username']
+    except IndexError:
         return False
 
 
