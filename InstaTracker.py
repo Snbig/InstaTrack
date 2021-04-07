@@ -58,8 +58,7 @@ def useridToUsername(userid):
         headers=header)
 
     if r.status_code == 404:
-        print('[-] "{}" Not Found :('.format(userid))
-        exit()
+        return False
 
     j = json.loads(r.text)
 
