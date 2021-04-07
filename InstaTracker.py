@@ -55,12 +55,19 @@ def useridToUsername(userid):
         'X-Requested-With': 'XMLHttpRequest'}
     r = requests.get(
         f'https://i.instagram.com/api/v1/users/{userid}/info/',
-        headers=header).text
-    if json.loads(r).get("status") != 'ok':
+        headers=header)
+
+    if r.status_code == 404:
+        print('[-] "{}" Not Found :('.format(userid))
+        exit()
+
+    j = json.loads(r.text)
+
+    if j.get("status") != 'ok':
         print('[x] Rate limit reached!\n[#] Unchecked ID: {}\n[!] Try again in a few minutes..\n'.format(userid))
         exit()
     try:
-        return json.loads(r)['user']['username']
+        return j['user']['username']
     except IndexError:
         return False
 
